@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>MPE Tech</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/css/header-admin.css}" type="text/css">
+        <style>
+            .botao{
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br>
+        <div class="container">
+            <form th:action="${id == null} ? @{/produtos/salvar} : @{/produtos/editar}" th:object="${produtos}" method="post" enctype="multipart/form-data">
+                <h1 class="h3 mb-3 font-weight-normal">+ Produtos</h1>
+                <div th:replace="fragmentos/alert"></div>
+                <br>
+                <input type="hidden" id="id" th:field="*{id}">
+                <div class="form-group">
+                    <label><strong>Tipo do produto:</strong></label>
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('enumTipoProduto')}">
+                        <label class="validation-message" th:errors="*{enumTipoProduto}"></label>
+                    </div>
+                    <select class="form-control" id="tipoProduto" th:field="*{enumTipoProduto}">
+                        <option value="">Selecione</option>
+                        <option th:each="tipo : ${T(br.com.mpetech.enums.EnumTipoProduto).values()}" th:value="${tipo}" th:text="${tipo.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('enumMarcaProduto')}">
+                        <label class="validation-message" th:errors="*{enumMarcaProduto}"></label>
+                    </div>
+                    <label><strong>Marca do produto:</strong></label>
+                    <select class="form-control" id="marcaProduto" th:field="*{enumMarcaProduto}">
+                        <option value="">Selecione</option>
+                        <option th:each="marca : ${T(br.com.mpetech.enums.EnumMarcaProduto).values()}" th:value="${marca}" th:text="${marca.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nomeProduto')}">
+                        <label class="validation-message" th:errors="*{nomeProduto}"></label>
+                    </div>
+                    <label><strong>Nome do produto:</strong></label>
+                    <input type="text" class="form-control" id="nomeProduto" th:field="*{nomeProduto}" placeholder="informe..." maxlength="255">
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('descricaoProduto')}">
+                        <label class="validation-message" th:errors="*{descricaoProduto}"></label>
+                    </div>
+                    <label><strong>Descrição do produto:</strong></label>
+                    <textarea class="form-control" id="descricaoProduto" rows="3" th:field="*{descricaoProduto}" placeholder="descreva..." maxlength="255"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('enumStatusEstoque')}">
+                        <label class="validation-message" th:errors="*{enumStatusEstoque}"></label>
+                    </div>
+                    <label><strong>Status do estoque:</strong></label>
+                    <select class="form-control" id="statusProduto" th:field="*{enumStatusEstoque}">
+                        <option value="">Selecione</option>
+                        <option th:each="status : ${T(br.com.mpetech.enums.EnumStatusEstoque).values()}" th:value="${status}" th:text="${status.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('enumStatusProduto')}">
+                        <label class="validation-message" th:errors="*{enumStatusProduto}"></label>
+                    </div>
+                    <label><strong>Status do produto:</strong></label>
+                    <select class="form-control" id="statusProduto" th:field="*{enumStatusProduto}">
+                        <option value="">Selecione</option>
+                        <option th:each="status : ${T(br.com.mpetech.enums.EnumStatusProduto).values()}" th:value="${status}" th:text="${status.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><strong>Upload das imagens dos produtos&nbsp;&nbsp;</strong></label>
+                    <script th:src="@{https://unpkg.com/sweetalert/dist/sweetalert.min.js}"></script>
+                    <a onclick="swal('Certifique-se de que, a primeira imagem irá servir como principal na exibição de cada produto para os clientes MPE Tech.');">
+                        <i style="font-size: 20px; color: red;" class="bi bi-exclamation-circle"></i></a>
+                    <br>
+                    <label><strong>1° imagem:</strong></label>
+                    <input type="file" name="file1" class="form-control" id="imagemPrimaria" required>
+                </div>
+                <div class="form-group">
+                    <label><strong>2° imagem:</strong></label>
+                    <input type="file" name="file2" class="form-control" id="imagemSecundaria" required>
+                </div>
+                <div class="form-group">
+                    <label><strong>3° imagem:</strong></label>
+                    <input type="file" name="file3" class="form-control" id="imagemTerciaria" required>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('estrelaProduto')}">
+                        <label class="validation-message" th:errors="*{estrelaProduto}"></label>
+                    </div>
+                    <label><strong>Quantidade de estrelas:</strong></label>
+                    <select class="custom-select" id="estrelaProduto" size="5" th:field="*{estrelaProduto}">
+                        <option value="1" style="color: goldenrod;" selected>✫</option>
+                        <option value="2" style="color: goldenrod;">✫✫</option>
+                        <option value="3" style="color: goldenrod;">✫✫✫</option>
+                        <option value="4" style="color: goldenrod;">✫✫✫✫</option>
+                        <option value="5" style="color: goldenrod;">✫✫✫✫✫</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('valorProduto')}">
+                        <label class="validation-message" th:errors="*{valorProduto}"></label>
+                    </div>
+                    <label><strong>Valor do produto:</strong></label>
+                    <input type="text" class="form-control" onkeyup="k(this);" id="valorProduto" th:field="*{valorProduto}" placeholder="R$000,00">
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('quantidadeProduto')}">
+                        <label class="validation-message" th:errors="*{quantidadeProduto}"></label>
+                    </div>
+                    <label><strong>Quantidade:</strong></label>
+                    <input type="number" maxlength="4" onkeypress="return somenteNumeros_quantidade_produto(event)" min="1" max="9999" class="form-control" id="quantidadeProduto" th:field="*{quantidadeProduto}" placeholder="informe...">
+                </div>
+                <button type="submit" class="btn btn-success">Salvar</button>
+                <a th:href="@{/produtos/listar}" class="btn btn-secondary" role="button">Cancelar</a>
+            </form>
+        </div>
+        <br><br><br>
+    </body>
+    <script th:src="@{/scripts/mascaraMoeda.js}"></script>
+    <script th:src="@{/scripts/validaNumeros.js}"></script>
+    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+</html>

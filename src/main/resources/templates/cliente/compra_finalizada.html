@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/css/compra_finalizada.css}" type="text/css">
+        <style>
+            .btn-outline-primary {
+                color: #359fd1;
+                border-color: #359fd1;
+            }
+            a {
+                color: #359fd1;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            .botao{
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body class="d-flex flex-column h-100">
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br><br>
+        <main role="main" class="flex-shrink-0">
+            <div class="container text-center">
+                <h1 class="mt-5"><i class="bi bi-bookmark-check"></i> Compra realizada com sucesso <i class="bi bi-bookmark-check"></i></h1>
+                <span class="lead">Caro </span><span class="lead" sec:authentication="name"></span><span class="lead">, é com grande alegria que agradecemos por depositar sua confiança em nosso trabalho e profissionalismo.</span>
+                <br><br>
+                <p class="lead">Acesse seu <a th:href="@{/clientes/historico_compras}">histórico de compras</a> para visualizar os detalhes da compra.</p>
+                <p style="font-size: 2rem; font-weight: 400;" th:text="${'Pedido N°' + idPedido}"></p>
+            </div>
+        </main>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>

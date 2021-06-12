@@ -1,0 +1,151 @@
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+.menu,
+.submenu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu {         
+    margin: 50px auto;
+    width: 800px;
+    /* http://www.red-team-design.com/horizontal-centering-using-css-fit-content-value */
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;   
+}
+
+.menu > li {
+    background: #359fd1;
+    float: left;
+    position: relative;
+    transform: skewX(25deg);
+}
+
+.menu a {
+    display: block;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: Arial, Helvetica;
+    text-transform: uppercase;
+    font-size: 14px;
+}       
+
+.menu li:hover {
+    background: #F103DA;
+}       
+
+.menu > li > a {
+    transform: skewX(-25deg);
+    padding: 1em 2em;
+}
+
+.submenu {
+    position: absolute;
+    width: 200px;
+    left: 50%; margin-left: -100px;
+    transform: skewX(-25deg);
+    transform-origin: left top;
+}
+
+.submenu li {
+    background: #359fd1;
+    position: relative;
+    overflow: hidden;     
+}                       
+
+.submenu > li > a {
+    padding: 1em 2em;         
+}
+
+.submenu > li::after {
+    content: '';
+    position: absolute;
+    top: -125%;
+    height: 100%;
+    width: 100%;          
+    box-shadow: 0 0 50px rgba(0, 0, 0, .9);           
+}       
+
+.submenu > li:nth-child(odd){
+    transform: skewX(-25deg) translateX(0);
+}
+
+.submenu > li:nth-child(odd) > a {
+    transform: skewX(25deg);
+}
+
+.submenu > li:nth-child(odd)::after {
+    right: -50%;
+    transform: skewX(-25deg) rotate(3deg);
+}               
+
+.submenu > li:nth-child(even){
+    transform: skewX(25deg) translateX(0);
+}
+
+.submenu > li:nth-child(even) > a {
+    transform: skewX(-25deg);
+}
+
+.submenu > li:nth-child(even)::after {
+    left: -50%;
+    transform: skewX(25deg) rotate(3deg);
+}
+
+.submenu,
+.submenu li {
+    opacity: 0;
+    visibility: hidden;           
+}
+
+.submenu li {
+    transition: .2s ease transform;
+}
+
+.menu > li:hover .submenu,
+.menu > li:hover .submenu li {
+    opacity: 1;
+    visibility: visible;
+}  
+
+.menu > li:hover .submenu li:nth-child(even){
+    transform: skewX(25deg) translateX(15px);         
+}
+
+.menu > li:hover .submenu li:nth-child(odd){
+    transform: skewX(-25deg) translateX(-15px);           
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #359fd1;
+}
+
+a {
+    color: #359fd1;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.btn-outline-primary {
+    color: #359fd1;
+    border-color: #359fd1;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font: "Open Sans Bold",Arial,Helvetica,sans-serif;
+}

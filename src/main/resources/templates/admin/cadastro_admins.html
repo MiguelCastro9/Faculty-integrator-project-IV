@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="canonical" th:href="@{https://getbootstrap.com/docs/4.5/examples/sign-in/}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">    
+        <link rel="stylesheet" th:href="@{/css/cadastro_usuario_admin.css}" type="text/css">
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+            body{
+                background-color: #E9ECEF;
+            }
+            a:hover{
+                text-decoration: none;
+            }
+            .botao{
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br>
+        <form class="form-signin" th:action="${id == null} ? @{/usuarios/salvar} : @{/usuarios/editar}" th:object="${usuarios}" method="post">
+            <div class="text-center mb-4">
+                <img class="mb-4" th:src="@{/img/logo02.PNG}" width="250" height="200">
+                <div th:replace="fragmentos/alert"></div>
+                <h1 class="h3 mb-3 font-weight-normal">+ Usuários</h1>
+                <p>Cadastro de usuários do Back Office.</p>
+            </div>
+            <input hidden id="id" th:field="*{id}"/>
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('email')}">
+                    <label class="validation-message" th:errors="*{email}"></label>
+                </div>
+                <input type="email" th:field="*{email}" class="form-control" placeholder="* Email" maxlength="45">
+            </div>
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nome')}">
+                    <label class="validation-message" th:errors="*{nome}"></label>
+                </div>
+                <input type="text" th:field="*{nome}" class="form-control" placeholder="* Nome" maxlength="45">
+            </div>
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('status')}">
+                    <label class="validation-message" th:errors="*{status}"></label>
+                </div>
+                <h6>Status do usuário:</h6>
+                <select class="custom-select" id="status" th:field="*{status}">
+                    <option value="1" selected>Ativo</option>
+                    <option value="2">Inativo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('senha')}">
+                    <label class="validation-message" th:errors="*{senha}"></label>
+                </div>
+                <input type="password" th:field="*{senha}" class="form-control" placeholder="* Senha" maxlength="255">
+            </div> 
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('senhaRepetida')}">
+                    <label class="validation-message" th:errors="*{senhaRepetida}"></label>
+                </div>
+                <input type="password" th:field="*{senhaRepetida}" class="form-control" placeholder="* Repita sua Senha" maxlength="255">
+            </div>
+            <div class="form-group">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('perfil')}">
+                    <label class="validation-message" th:errors="*{perfil}"></label>
+                </div>
+                <h6>Perfil do usuário:</h6>
+                <select class="custom-select" id="perfil" th:field="*{perfil}">
+                    <option value="ROLE_ADMIN" selected>Administrador</option>
+                    <option value="ROLE_STOCK">Estoquista</option>
+                </select>
+            </div>
+            <button class="btn btn-lg btn-outline-success btn-block" type="submit">Salvar</button>
+            <br>
+            <a th:href="@{/usuarios/listar}"><p class="btn btn-lg btn-outline-secondary btn-block">Voltar</p></a>
+            <p class="mt-5 mb-3 text-muted" style="text-align: center;">&copy; MPE Tech-2021</p>
+        </form>
+    </body>
+    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script th:src="@{/scripts/user.js}"></script>
+</html>
+

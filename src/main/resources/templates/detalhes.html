@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>MPE Tech</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css}" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/css/detalhes.css}" type="text/css">
+    </head>
+    <style>
+        .nav-link{
+            background-color: #359fd1;
+        }
+        .btn-outline-primary {
+            color: #359fd1;
+            border-color: #359fd1;
+        }
+        a {
+            color: #359fd1;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        .botao{
+            width: 50%;
+        }
+    </style>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br sec:authorize="hasRole('ROLE_USER')">
+        <main>
+            <div class="banner-animado visible-md visible-lg">
+                <figure><a class="banner" th:href="@{/home/produtos}"><img src="https://img.terabyteshop.com.br/banner/1234.jpg"></a></figure>
+            </div>
+            <div class="container me-2">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="width: 500px; height: 500px;">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img th:src="@{'/imagem_produtos/' + ${produtos.imagemPrimaria}}" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{'/imagem_produtos/' + ${produtos.imagemSecundaria}}" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{'/imagem_produtos/' + ${produtos.imagemTerciaria}}" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </main>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4" th:text="${produtos.nomeProduto}"></h1>
+                <h1 class="display-6" style="color: green;" th:text="${#numbers.formatCurrency(produtos.valorProduto)} + ' em até 12x vezes'"></h1>
+                <hr>
+                <p class="lead" th:text="${produtos.descricaoProduto}"></p>
+                <hr>
+                <div class="stars">
+                    <p style="color: goldenrod; font-size: 20px;" th:if="${produtos.estrelaProduto} == '1'"><i class="bi bi-star-fill"></i></p>
+                    <p style="color: goldenrod; font-size: 20px;" th:if="${produtos.estrelaProduto} == '2'"><i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i></p>
+                    <p style="color: goldenrod; font-size: 20px;" th:if="${produtos.estrelaProduto} == '3'"><i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i></p>
+                    <p style="color: goldenrod; font-size: 20px;" th:if="${produtos.estrelaProduto} == '4'"><i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i></p>
+                    <p style="color: goldenrod; font-size: 20px;" th:if="${produtos.estrelaProduto} == '5'"><i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i>&nbsp;<i class="bi bi-star-fill"></i></p>
+                </div>
+                <hr>
+                <p class="lead" th:text="'marca ' + ${produtos.enumMarcaProduto.sigla}"></p>
+                <hr>
+                <p style="color: green;" class="lead" th:if="${produtos.enumStatusEstoque.sigla} == Disponível">produto disponível em estoque</p>
+                <p style="color: red;" class="lead" th:if="${produtos.enumStatusEstoque.sigla} == Esgotado">produto esgotado no estoque</p>
+                <hr>
+                <p class="lead" th:text="${produtos.quantidadeProduto} + ' quantidades em estoque'"></p>
+                <hr>
+            </div>
+        </div>
+        <div class="container">
+            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/carrinho/add/{id}(id=${produtos.id})}" type="button" class="btn btn-outline-success">Comprar <i class="bi bi-cart3"></i></a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/carrinho/add/{id}(id=${produtos.id})}" type="button" class="btn btn-outline-success">Comprar <i class="bi bi-cart3"></i></a>
+            <a th:href="@{/home/produtos}" type="button" class="btn btn-outline-primary">Voltar</a>
+        </div>
+        <br><br><br><br>
+        <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js}"></script>
+        <div th:replace="fragmentos/layout :: rodape"></div>
+    </body>
+    <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <style>
+            .btn-outline-primary {
+                color: #359fd1;
+                border-color: #359fd1;
+            }
+            a {
+                color: #359fd1;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            .botao{
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br><br><br><br>
+        <div class="container">
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Pedido</th>
+                        <th scope="col">Data/Horário</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" style="color: royalblue;">Nota fiscal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" scope="row" th:each="compra : ${compras}">
+                        <td th:text="${compra.numeroPedido}"></td>
+                        <td th:text="${compra.dataCompra}"></td>
+                        <td th:text="${compra.valorTotal}"></td>
+                        <td th:text="${compra.statusPedido.status}"></td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/checkout/exportPdf/{id}(id=${compra.id})}" style="color: royalblue;"><i style="font-size: 25px;" class="bi bi-receipt-cutoff"></i></a>
+                        </td>
+                    </tr>
+                </tbody>            
+            </table>
+        </div>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>

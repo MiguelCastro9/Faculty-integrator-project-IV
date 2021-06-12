@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <style>
+            .btn-outline-primary {
+                color: #359fd1;
+                border-color: #359fd1;
+            }
+            a {
+                color: #359fd1;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            .botao{
+                width: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br><br><br>
+        <div class="media container" th:each="cliente : ${clientes}">
+            <img th:src="@{'/imagem_perfil/' + ${cliente.imagemPerfil}}" width="250px" height="250px" class="rounded-circle mr-3">
+            <div class="media-body">
+                <h5 class="mt-0">Credênciais</h5>
+                <i><p th:text="${cliente.email}"></p></i>
+                <i><p th:text="${cliente.nome}"></p></i>
+                <i><p th:text="${cliente.cpf}"></p></i>
+                <h5 class="mt-0">Endereço</h5>
+                <i><p th:text="${cliente.logradouroCliente}"></p></i>
+                <i><p th:text="${cliente.numeroCliente}"></p></i>
+                <i><p th:text="${cliente.localidadeCliente}"></p></i>
+                <i><p th:text="${cliente.ufCliente}"></p></i>
+                <i><p th:text="${cliente.complementoCliente}"></p></i>
+                <i><p th:text="${cliente.cepCliente}"></p></i>
+                <h5 class="mt-0">Faturamento</h5>
+                <i><p th:text="${cliente.logradouroFaturamento}"></p></i>
+                <i><p th:text="${cliente.numeroFaturamento}"></p></i>
+                <i><p th:text="${cliente.localidadeFaturamento}"></p></i>
+                <i><p th:text="${cliente.ufFaturamento}"></p></i>
+                <i><p th:text="${cliente.complementoFaturamento}"></p></i>
+                <i><p th:text="${cliente.cepFaturamento}"></p></i>
+                <a class="btn btn-sm btn-outline-primary" th:href="@{/clientes/editar/{id}(id=${cliente.id})}" role="button">Editar perfil <i class="bi bi-pencil"></i></a>
+                <a class="btn btn-sm btn-outline-primary" th:href="@{/clientes/meus_enderecos/{id}(id=${cliente.id})}" role="button">Endereços extras <i class="bi bi-truck"></i></a>
+            </div>        
+        </div>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>

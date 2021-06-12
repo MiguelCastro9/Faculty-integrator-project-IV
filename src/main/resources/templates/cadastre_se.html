@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/css/cadastre-se.css}" type="text/css">
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/alert"></div>
+        <form class="container" th:action="@{/acesso/salvar}" th:object="${clientes}" method="post" enctype="multipart/form-data">
+            <br><br><br>
+            <h1 class="h3 mb-3 font-weight-normal">Cadastre-se</h1>
+            <br><br>
+            <hr class="my-4">
+            <h1 class="h5 mb-4 font-weight-normal text-center">Credênciais</h1>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nome')}">
+                        <label class="validation-message" th:errors="*{nome}"></label>
+                    </div>
+                    <input type="text" class="form-control" name="nome" th:field="*{nome}" placeholder="* Nome" maxlength="20">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('sobrenome')}">
+                        <label class="validation-message" th:errors="*{sobrenome}"></label>
+                    </div>
+                    <input type="text" class="form-control" name="sobrenome" th:field="*{sobrenome}" placeholder="* Sobrenome" maxlength="20">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('email')}">
+                        <label class="validation-message" th:errors="*{email}"></label>
+                    </div>
+                    <input type="text" class="form-control" name="email" th:field="*{email}" placeholder="* E-mail" maxlength="45">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('cpf')}">
+                        <label class="validation-message" th:errors="*{cpf}"></label>
+                    </div>
+                    <input type="text" mask="999.999.999-99" class="form-control" name="cpf" th:field="*{cpf}" placeholder="* CPF" maxlength="14">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('senha')}">
+                        <label class="validation-message" th:errors="*{senha}"></label>
+                    </div>
+                    <input type="password" class="form-control" name="senha" th:field="*{senha}" placeholder="* Senha" maxlength="255">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('senhaRepetida')}">
+                        <label class="validation-message" th:errors="*{senhaRepetida}"></label>
+                    </div>
+                    <input type="password" class="form-control" name="senhaRepetida" th:field="*{senhaRepetida}" placeholder="* Repita sua Senha" maxlength="255">
+                </div>
+            </div>
+            <hr class="my-4">
+            <h1 class="h5 mb-4 font-weight-normal text-center">Foto <span class="text-muted">(opcional)</span></h1>
+            <div class="text-center">
+                <input type="file" name="file">
+            </div>
+            <hr class="my-4">
+            <h1 class="h5 mb-4 font-weight-normal text-center">Endereço entrega</h1>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('logradouroCliente')}">
+                        <label class="validation-message" th:errors="*{logradouroCliente}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="logradouroCliente" name="logradouroCliente" th:field="*{logradouroCliente}" placeholder="* Logradouro" maxlength="45">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('numeroCliente')}">
+                        <label class="validation-message" th:errors="*{numeroCliente}"></label>
+                    </div>
+                    <input type="number" maxlength="4" onkeypress="return somenteNumeros_endereco(event)" min="1" max="9999" id="numeroCliente" class="form-control" name="numeroCliente" th:field="*{numeroCliente}" placeholder="* Número">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('localidadeCliente')}">
+                        <label class="validation-message" th:errors="*{localidadeCliente}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="localidadeCliente" name="localidadeCliente" th:field="*{localidadeCliente}" placeholder="* Localidade" maxlength="45">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('ufCliente')}">
+                        <label class="validation-message" th:errors="*{ufCliente}"></label>
+                    </div>
+                    <select class="form-control" id="ufCliente" th:field="*{ufCliente}">
+                        <option value="">* Selecione a UF</option>
+                        <option th:each="ufs : ${T(br.com.mpetech.enums.EnumClienteUF).values()}" th:value="${ufs}" th:text="${ufs.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="complementoCliente" th:field="*{complementoCliente}" placeholder="Complemento" maxlength="255">
+                </div>
+                <div class="form-group col-md-2 input-group mb-3">
+                    <div id="alert-viaCep" class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('cepCliente')}">
+                        <label class="validation-message" th:errors="*{cepCliente}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="cepCliente" name="cepCliente" th:field="*{cepCliente}" placeholder="* CEP" maxlength="9" onblur="pesquisacep_endereco(this.value);">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary"  type="button"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <a class="copiarEndereco btn btn-outline-secondary" onclick="copiaValor()">Copiar endereço de entrega</a>
+            <h1 class="h5 mb-4 font-weight-normal text-center">Endereço faturamento</h1>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('logradouroFaturamento')}">
+                        <label class="validation-message" th:errors="*{logradouroFaturamento}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="logradouroFaturamento" name="logradouroFaturamento" th:field="*{logradouroFaturamento}" placeholder="* Logradouro" maxlength="45">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('numeroFaturamento')}">
+                        <label class="validation-message" th:errors="*{numeroFaturamento}"></label>
+                    </div>
+                    <input type="number" maxlength="4" onkeypress="return somenteNumeros_faturamento(event)" min="1" max="9999" id="numeroFaturamento" class="form-control" name="numeroFaturamento" th:field="*{numeroFaturamento}" placeholder="* Número">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('localidadeFaturamento')}">
+                        <label class="validation-message" th:errors="*{localidadeFaturamento}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="localidadeFaturamento" name="localidadeFaturamento" th:field="*{localidadeFaturamento}" placeholder="* Localidade" maxlength="45">
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('ufFaturamento')}">
+                        <label class="validation-message" th:errors="*{ufFaturamento}"></label>
+                    </div>
+                    <select class="form-control" id="ufFaturamento" th:field="*{ufFaturamento}">
+                        <option value="">* Selecione a UF</option>
+                        <option th:each="ufs : ${T(br.com.mpetech.enums.EnumClienteUF).values()}" th:value="${ufs}" th:text="${ufs.sigla}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="complementoFaturamento" th:field="*{complementoFaturamento}" placeholder="Complemento" maxlength="255">
+                </div>
+                <div class="form-group col-md-2 input-group mb-3">
+                    <div id="alert-viaCep" class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('cepFaturamento')}">
+                        <label class="validation-message" th:errors="*{cepFaturamento}"></label>
+                    </div>
+                    <input type="text" class="form-control" id="cepFaturamento" name="cepFaturamento" th:field="*{cepFaturamento}" placeholder="* CEP" maxlength="9" onblur="pesquisacep_faturamento(this.value);">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary"  type="button"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <button type="submit" class="btn btn-outline-success">Cadastrar <i class="bi bi-person-check"></i></button>
+            <a class="btn btn-outline-secondary" th:href="@{/acesso/login}" role="button">Voltar</a>
+        </form>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted text-center">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+        <br>
+    </body>
+    <script th:src="@{/scripts/copiaEndereco.js}"></script>
+    <script th:src="@{/scripts/viaCep.js}"></script>
+    <script th:src="@{/scripts/validaNumeros.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <style>
+            .btn-outline-primary {
+                color: #359fd1;
+                border-color: #359fd1;
+            }
+            a {
+                color: #359fd1;
+                text-decoration: none !important;
+                background-color: transparent;
+            }
+            .botao{
+                width: 50%;
+            }
+            .btn-status-large{
+                width: 12rem;
+            }
+            .btn-status-medium{
+                width: 8rem;
+            }
+            .td-status{
+                font-weight: 500;
+            }
+            .pedido-finalizado{
+                font-weight:bold;
+                color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br><br>
+        <div class="container">
+            <form class="form-inline" method="GET" th:action="@{/estoque/pedidos/buscar}">
+                <input class="form-control mr-sm-2" type="number" placeholder="Nº Pedido..." aria-label="Search" th:name="numeroPedido">
+                <button class="btn btn-outline-secondary my-2 my-sm-0">Buscar</button>   
+            </form>
+            <br>
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Pedido</th>
+                        <th scope="col">Data/Horário</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" scope="row" th:each="compra : ${compras}">
+                        <td th:text="${compra.numeroPedido}"></td>
+                        <td th:text="${compra.dataCompra}"></td>
+                        <td th:text="${compra.valorTotal}"></td>
+                        <td class="td-status" th:text="${compra.statusPedido.status}"></td>
+                        <td>
+                            <a th:href="@{/estoque/status/{id}&2(id=${compra.id})}">
+                                <button th:if="${compra.statusPedido.status == 'Aguardando pagamento' || compra.statusPedido.status == 'Pagamento rejeitado'}" class="btn-status-medium btn btn-success">Aprovar
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+                                    </svg>
+                                </button>
+                            </a>
+                            <a th:href="@{/estoque/status/{id}&3(id=${compra.id})}">
+                                <button  th:if="${compra.statusPedido.status == 'Aguardando pagamento'}" class="btn-status-medium btn btn-danger">Recusar
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+                                    </svg>
+                                </button>
+                            </a>
+                            <a th:href="@{/estoque/status/{id}&4(id=${compra.id})}">
+                                <button th:if="${compra.statusPedido.status == 'Pagamento aprovado'}" title="Aguardando retirada"  class="btn-status-large btn btn-info">Aguardando retirada 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+                                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
+                                    </svg>
+                                </button>
+                            </a>
+                            <a th:href="@{/estoque/status/{id}&5(id=${compra.id})}">
+                                <button th:if="${compra.statusPedido.status == 'Pagamento aprovado'}" title="Em transito"  class="btn-status-large btn btn-info">Em transito 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                                    <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                                    </svg>
+                                </button>
+                            </a>
+                            <a th:href="@{/estoque/status/{id}&6(id=${compra.id})}">
+                                <button th:if="${compra.statusPedido.status == 'Em transito' || compra.statusPedido.status == 'Aguardando retirada'}" title="Entregue"  class="btn-status-large btn btn-dark">Entregue   
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                                    </svg>
+                                </button>
+                            </a>
+                            <span class="pedido-finalizado" th:if="${compra.statusPedido.status == 'Entregue'}">Pedido Finalizado
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                </svg>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>            
+            </table>
+            <ul class="nav nav-pills">
+                <li class="nav-item" th:each="p : ${#numbers.sequence(0,compras.totalPages-1)}">
+                    <a th:href="@{/estoque/__${caminho}__(pag=${p}, nome=${param.nome})}" th:text="${p}" th:classappend="${pagAtual}==${p}?'active':''" class="nav-link"></a>
+                </li>
+            </ul>
+            <br><br><br>
+        </div>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>

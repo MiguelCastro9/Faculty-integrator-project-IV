@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta name="viewport" content="width=width-device, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/css/telaProdutos.css}">
+        <style>
+            .botao{
+                width: 50%;
+            }
+            a:link 
+            { 
+                text-decoration:none; 
+            }
+            .dark {
+                background-color: #212529!important;
+            }          
+        </style>
+    </head>
+    <body>
+        <!--CABEÇALHO -->
+        <header th:fragment="cabecalho" class="header-nav">
+            <div class="collapse bg-dark dark fixed-top" id="navbarHeader" style=" background-color: #212529!important;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-md-7 py-4">
+                            <br><br><br><br>
+                            <h4 class="text-white">Aviso</h4>
+                            <p class="text-muted">Utilizamos cookies para melhorar sua experiência em nosso site. Ao continuar, você concorda com este uso.</p>
+                            <p class="text-muted">Lembramos também que, todos os seus dados como e-mail e senha são internamente armazenados e criptografados para sua melhor segurança.</p>
+                        </div>
+                        <div class="col-sm-4 offset-md-1 py-4" sec:authorize="isAuthenticated()">
+                            <h4 class="text-white">Menu</h4>
+                            <ul class="list-unstyled" sec:authorize="hasRole('ROLE_USER')">
+                                <br><br> 
+                                <a class="botao btn btn-outline-primary" th:href="@{/home/dashboard}">Home   <i class="bi bi-house"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/clientes/perfil/{email}}">Perfil <i class="bi bi-person"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/home/produtos}">Loja   <i class="bi bi-shop"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/carrinho/exibir}">Carrinho <i class="bi bi-cart3"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/clientes/historico_compras}">Histórico   <i class="bi bi-receipt-cutoff"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-danger" th:href="@{/acesso/logout}">Logout   <i class="bi bi-door-open"></i></a>
+                            </ul>
+                            <ul class="list-unstyled" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="botao btn btn-outline-primary" th:href="@{/}">Home   <i class="bi bi-house"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/home/produtos}">Loja   <i class="bi bi-shop"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/produtos/listar}">Produtos   <i class="bi bi-clipboard"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/produtos/cadastrar}">Novo produto   <i class="bi bi-clipboard-plus"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/usuarios/listar}">Usuários   <i class="bi bi-people"></i></a>
+                                <br><br>
+                                <a class="botao newUser btn btn-outline-primary" th:href="@{/usuarios/cadastrar}">Novo usuário   <i class="bi bi-person-plus"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-danger" th:href="@{/acesso/logout}">Logout   <i class="bi bi-door-open"></i></a>
+                            </ul>
+                            <ul class="list-unstyled" sec:authorize="hasRole('ROLE_STOCK')">
+                                <a class="botao btn btn-outline-primary" th:href="@{/}">Home   <i class="bi bi-house"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/home/produtos}">Loja   <i class="bi bi-shop"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/produtos/listar}">Produtos   <i class="bi bi-clipboard"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/produtos/cadastrar}">Novo produto   <i class="bi bi-clipboard-plus"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/estoque/pedidos}">Todos os pedidos <i class="bi bi-box"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/usuarios/listar}">Usuários   <i class="bi bi-people"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-danger" th:href="@{/acesso/logout}">Logout   <i class="bi bi-door-open"></i></a>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 offset-md-1 py-4" sec:authorize="!isAuthenticated()">
+                            <h4 class="text-white">Menu</h4>
+                            <ul class="list-unstyled">
+                                <br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/home/produtos}">Loja   <i class="bi bi-shop"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/carrinho/exibir}">Carrinho <i class="bi bi-cart3"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-success" th:href="@{/acesso/login}">Login   <i class="bi bi-person-check"></i></a>
+                                <br><br>
+                                <a class="botao btn btn-outline-primary" th:href="@{/acesso/cadastrar}">Cadastre-se   <i class="bi bi-person-plus"></i></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="hasRole('ROLE_USER')" class="navbar navbar-dark bg-dark fixed-top shadow-sm" style=" background-color: #212529!important;">
+                <div class="container d-flex justify-content-between" th:each="cliente : ${clientes}">
+                    <img class="rounded-circle mr-3" th:src="@{'/imagem_perfil/' + ${cliente.imagemPerfil}}" width="70px" height="70px" alt="Perfil">
+                    <div sec:authentication="name" class="navbar-brand d-flex align-items-center"></div>
+                    <div th:replace="fragmentos/carrinhoIcon :: carrinhoIcon"></div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div sec:authorize="hasRole('ROLE_STOCK')" class="navbar navbar-dark bg-dark fixed-top shadow-sm" style=" background-color: #212529!important;">
+                <div class="container d-flex justify-content-between">
+                    <div sec:authentication="name" class="navbar-brand d-flex align-items-center"></div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="navbar navbar-dark bg-dark fixed-top shadow-sm" style=" background-color: #212529!important;">
+                <div class="container d-flex justify-content-between">
+                    <div sec:authentication="name" class="navbar-brand d-flex align-items-center"></div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div sec:authorize="!isAuthenticated()" class="navbar navbar-dark bg-dark fixed-top shadow-sm" style=" background-color: #212529!important;">
+                <div class="container d-flex justify-content-between">
+                    <div class="navbar-brand d-flex align-items-center">Olá cliente</div>
+                    <div th:replace="fragmentos/carrinhoIcon :: carrinhoIcon"></div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span> 
+                    </button>
+                </div>
+            </div>
+        </header>
+        <!--RODAPÉ -->
+        <footer th:fragment="rodape">
+            <div id="footer">    
+                <footer>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <ul>
+                                    <li class="hidden-xs hidden-sm"><img class="mb-4" th:src="@{/img/logo02.PNG}" alt="" width="250" height="200"></li>
+                                    <li class="Cinza">MPE TECH LTDA</li>
+                                    <li class="Cinza">CNPJ: 00.000.000/0001-00 | SAO PAULO-SP</li>
+                                </ul>
+                                <ul class="infoAten">
+                                    <li>ATENDIMENTO <br> De segunda a sexta das 8:30 às 12H / 13H às 18H</li>
+                                    <li class="Cinza">SOMOS E-COMMERCE - NÃO TEMOS ATENDIMENTO LOCAL</li>
+                                </ul>
+                                <ul>
+                                    <li><i class="fa fa-desktop Cinza" style="font-size: 15px;"></i></li>
+                                    <li>Desenvolvido por <a href="https://www.linkedin.com/in/miguel-castro-b199b71b4" target="blank">Miguel Castro</a>/ 
+                                        <a href="http://linkedin.com/in/everton-c-979bb4b1" target="blank">Everton Coutinho</a> - Projeto Integrador IV</li>
+                                    <li>Centro Universitário Senac - São Paulo 2021</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="float-right">
+                            <a href="#" class="bi bi-arrow-up-square" style="font-size: 30px;"></a>
+                        </p>
+                    </div>
+                </footer>                 
+            </div>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script th:src="@{/scripts/user.js}"></script>
+</html>

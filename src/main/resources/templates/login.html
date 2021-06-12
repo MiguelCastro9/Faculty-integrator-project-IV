@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="canonical"  th:href="@{https://getbootstrap.com/docs/4.5/examples/sign-in/}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body class="text-center">
+        <div th:replace="fragmentos/alert"></div>
+        <form class="form-signin" th:action="@{/acesso/login}" method="post">
+            <img class="mb-4" th:src="@{/img/logo02.PNG}" width="250" height="200">
+            <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+            <input type="email" name="username" id="email" class="form-control" placeholder="Email" maxlength="45">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Senha" maxlength="255">
+            <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Entrar</button>
+            <br>
+            <span style="color: red;" th:text="${error}"></span>
+            <p class="mt-5 mb-3 text-muted">Não possui conta ? <a th:href="@{/acesso/cadastrar}">cadastre-se aqui!</a></p>
+            <p class="mt-5 mb-3 text-muted">&copy; MPE Tech-2021</p>
+        </form>
+    </body>
+</html>

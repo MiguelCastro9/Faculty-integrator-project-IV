@@ -1,0 +1,24 @@
+td{
+    text-align: center;
+}
+
+tr{
+    text-align: center;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #359fd1;
+}
+
+a {
+    color: #359fd1;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.btn-outline-primary {
+    color: #359fd1;
+    border-color: #359fd1;
+}
+

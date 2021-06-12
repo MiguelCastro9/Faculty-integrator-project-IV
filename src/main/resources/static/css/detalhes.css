@@ -1,0 +1,126 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.Fsection {
+    position: relative;
+    z-index: 58;
+    background: #000;
+    margin-bottom: 318px;
+    overflow: hidden;
+}
+
+.FooterSubMenu {
+    background: #212121;
+    border-top: 2px solid #ff5800;
+}
+
+.Farticle {
+    height: auto;
+}
+
+.hidden {
+    display: none!important;
+}
+
+footer li img {
+    padding: 20px;
+}
+
+.FSmenu h5, .Fselos h5 {
+    font: 500 12px "Open Sans",Arial,Helvetica,sans-serif;
+    color: #FF5510;
+}
+.FSmenu h5, .FSmenu ul, .Fselos h5 {
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: scale(1);
+}
+
+footer {
+    font: 11px/30px "Open Sans",Arial,Helvetica,sans-serif;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    background: #272727;
+    z-index: -9999999;
+    bottom: 0;
+}
+.list-inline {
+    padding-left: 0;
+    margin-left: -5px;
+    list-style: none;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+.Cinza {
+    color: white!important;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100% 100%;
+    background-color: #359fd1;
+}
+
+.banner-animado img {
+    margin: -25px auto 6px 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #ddd;
+    border-bottom: 6px solid #359fd1;
+    text-align: center;
+}
+
+footer {
+    padding-bottom: 2rem;
+}
+
+.float-right {
+    float: right!important;
+}
+
+

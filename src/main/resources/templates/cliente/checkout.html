@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>MPE Tech</title>
+        <link rel="sortcut icon" th:href="@{/img/logo02.png}" type="image">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css}">
+        <style>
+            .btn-outline-primary {
+                color: #359fd1;
+                border-color: #359fd1;
+            }
+            a {
+                color: #359fd1;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            .botao{
+                width: 50%;
+            }
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+            .formato{
+                border-radius: 5px;
+                box-shadow: -5px 8px 8px 0px;
+            }
+            .frete{
+                display: flex;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="fragmentos/layout :: cabecalho"></div>
+        <br><br><br><br>
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4 formato" th:src="@{/img/logo02.PNG}" width="200" height="150">
+                <h2>Checkout</h2>
+                <p class="lead">Ressaltamos que, todos os dados informados são totalmente protegidos para sua segurança.</p>
+            </div>
+            <form method="post" th:action="@{/checkout/compra}">
+                <div class="row">
+                    <!--ENTREGA-->
+                    <div class="col-md-8 order-md-1">
+                        <h4 class="mb-3">Dados para entrega</h4>
+                        <a class="btn btn-outline-primary" th:href="@{/clientes/novo_endereco}" role="button">Novo endereço <i class="bi bi-truck"></i></a>
+                        <div th:each="cliente : ${clientes}">
+                            <br>
+                            <label for="cidade">Endereços:</label>
+                            <select class="form-control" style="font-weight: bold" th:field="*{compras.enderecoEntrega}">
+                                <option selected style="font-weight: bold;" th:each="cliente : ${clientes}" 
+                                        th:value="${cliente.logradouroCliente} + ', ' + ${cliente.numeroCliente} + ', ' + ${cliente.cepCliente}"
+                                        th:text="${cliente.logradouroCliente} + ', ' + ${cliente.numeroCliente} + ', ' + ${cliente.cepCliente}"/>
+                                <option th:each="endereco : ${enderecosExtras}" 
+                                        th:value="${endereco.logradouro} + ', ' + ${endereco.numero} + ', ' +  ${endereco.cep}"
+                                        th:text="${endereco.logradouro} + ', ' + ${endereco.numero} + ', ' +  ${endereco.cep}"/>
+                            </select>
+                        </div>
+                        <br>
+                        <hr class="mb-4">
+                        <h4 class="mb-3">Pagamento</h4>
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.formaPagamento')}">
+                            <label class="validation-message" th:errors="*{compras.formaPagamento}"></label>
+                        </div>
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input th:field="*{compras.formaPagamento}" value="credito" id="credito" name="paymentMethod" type="radio" class="custom-control-input">
+                                <label class="custom-control-label" for="credito">Cartão de Crédito</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input th:field="*{compras.formaPagamento}" value="debito" id="debito" name="paymentMethod" type="radio" class="custom-control-input">
+                                <label class="custom-control-label" for="debito">Cartão de Débito</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input th:field="*{compras.formaPagamento}" value="boleto" id="boleto" name="paymentMethod" type="radio" class="custom-control-input">
+                                <label class="custom-control-label" for="boleto">Boleto</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 cartaoGenerico">
+                                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.nomeCartao')}">
+                                    <label class="validation-message" th:errors="*{compras.nomeCartao}"></label>
+                                </div>
+                                <label for="nomeCartao">* Nome do cartão:</label>
+                                <select class="form-control" th:field="*{compras.nomeCartao}">
+                                    <option value="" selected>Selecione</option>
+                                    <option value="Neon">Neon</option>
+                                    <option value="Nubank">Nubank</option>
+                                    <option value="Saraiva">Saraiva</option>
+                                    <option value="Digimais">Digimais</option>
+                                    <option value="Inter">Inter</option>
+                                    <option value="Next">Next</option>
+                                    <option value="Ourocard">Ourocard</option>
+                                    <option value="Santander">Santander</option>
+                                    <option value="Banco Original">Banco Original</option>
+                                    <option value="BMG">BMG</option>
+                                    <option value="Itaú Hipercard">Itaú Hipercard</option>
+                                    <option value="Agibank">Agibank</option>
+                                    <option value="Bradesco S.A">Bradesco S.A</option>
+                                    <option value="XP">XP</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3 cartaoGenerico">
+                                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.numeroCartao')}">
+                                    <label class="validation-message" th:errors="*{compras.numeroCartao}"></label>
+                                </div>
+                                <label for="numeroCartao">* Número do Cartão:</label>
+                                <input type="number" maxlength="16" onkeypress="return somenteNumeros_cartao_cliente(event)" min="1" max="9999999999999999" id="numeroCartao" class="form-control" name="numeroCartao" th:field="*{compras.numeroCartao}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 cartaoGenerico">
+                                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.codigoCartao')}">
+                                    <label class="validation-message" th:errors="*{compras.codigoCartao}"></label>
+                                </div>
+                                <label for="codigoCartao">* Códgo de Segurança:</label>
+                                <input type="number" maxlength="16" onkeypress="return somenteNumeros_cartao_codigo(event)" min="1" max="999" id="codigoCartao" class="form-control" name="codigoCartao" th:field="*{compras.codigoCartao}">
+                            </div>
+                            <div class="col-md-6 mb-3 cartaoCredito">
+                                <label for="parcelaCartao">* Parcelas:</label>
+                                <select style="font-weight: bold" class="form-control" th:field="*{compras.parcelasCartao}">
+                                    <option th:value="*{'1x de ' + #numbers.formatCurrency(carrinhoCompras.total)}" th:text="${'1x de ' + #numbers.formatCurrency(carrinhoCompras.total)}"></option>
+                                    <option th:value="*{'2x de ' + #numbers.formatCurrency(carrinhoCompras.total / 2)}" th:text="${'2x de ' + #numbers.formatCurrency(carrinhoCompras.total / 2)}"></option>
+                                    <option th:value="*{'3x de ' + #numbers.formatCurrency(carrinhoCompras.total / 3)}" th:text="${'3x de ' + #numbers.formatCurrency(carrinhoCompras.total / 3)}"></option>
+                                    <option th:value="*{'4x de ' + #numbers.formatCurrency(carrinhoCompras.total / 4)}" th:text="${'4x de ' + #numbers.formatCurrency(carrinhoCompras.total / 4)}"></option>
+                                    <option th:value="*{'5x de ' + #numbers.formatCurrency(carrinhoCompras.total / 5)}" th:text="${'5x de ' + #numbers.formatCurrency(carrinhoCompras.total / 5)}"></option>
+                                    <option th:value="*{'6x de ' + #numbers.formatCurrency(carrinhoCompras.total / 6)}" th:text="${'6x de ' + #numbers.formatCurrency(carrinhoCompras.total / 6)}"></option>
+                                    <option th:value="*{'7x de ' + #numbers.formatCurrency(carrinhoCompras.total / 7)}" th:text="${'7x de ' + #numbers.formatCurrency(carrinhoCompras.total / 7)}"></option>
+                                    <option th:value="*{'8x de ' + #numbers.formatCurrency(carrinhoCompras.total / 8)}" th:text="${'8x de ' + #numbers.formatCurrency(carrinhoCompras.total / 8)}"></option>
+                                    <option th:value="*{'9x de ' + #numbers.formatCurrency(carrinhoCompras.total / 9)}" th:text="${'9x de ' + #numbers.formatCurrency(carrinhoCompras.total / 9)}"></option>
+                                    <option th:value="*{'10x de ' + #numbers.formatCurrency(carrinhoCompras.total / 10)}" th:text="${'10x de ' + #numbers.formatCurrency(carrinhoCompras.total / 10)}"></option>
+                                    <option th:value="*{'11x de ' + #numbers.formatCurrency(carrinhoCompras.total / 11)}" th:text="${'11x de ' + #numbers.formatCurrency(carrinhoCompras.total / 11)}"></option>
+                                    <option th:value="*{'12x de ' + #numbers.formatCurrency(carrinhoCompras.total / 12)}" th:text="${'12x de ' + #numbers.formatCurrency(carrinhoCompras.total / 12)}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style=" flex-direction: column;">
+                            <div class="col-md-6 mb-3 cartaoGenerico">
+                                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.vencimentoCartao')}">
+                                    <label class="validation-message" th:errors="*{compras.vencimentoCartao}"></label>
+                                </div>
+                                <label for="vencimentoCartao">* Vencimento do cartão:</label>
+                                <input type="month" th:field="*{compras.vencimentoCartao}" class="form-control">
+                            </div>
+
+
+
+                            <div class="col-md-6 mb-3">
+                                <label>* Frete</label>
+                                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('compras.freteCompra')}">
+                                    <label class="validation-message" th:errors="*{compras.freteCompra}"></label>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-6 mb-3">
+                                <input readonly type="text" th:value="${frete2}" class="form-control" id="frete2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="button" onclick="copiaValorFrete1()">2 dias úteis</button>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-6 mb-3">
+                                <input readonly type="text" th:value="${frete5}" class="form-control" id="frete5">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="button" onclick="copiaValorFrete2()">5 dias úteis</button>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-6 mb-3">
+                                <input readonly type="text" th:value="${frete7}" class="form-control" id="frete7">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="button" onclick="copiaValorFrete3()">7 dias úteis</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Frete selecionado:</label>
+                                <input th:field="*{compras.freteCompra}" readonly type="text" class="form-control" id="freteSelecionado">
+                            </div>
+                        </div>
+                        <!-- MODAL - RESUMO DO PEDIDO -->
+                        <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Resumo do pedido</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                            <h6 class="my-0">Pedidos: </h6><strong><span style="color: green;" th:text="${carrinhoCompras.quantidade}"></span></strong>
+                                        </li>
+                                        <div th:each="item : ${carrinhoCompras.itens}">
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <h6 class="my-0" th:text="${item.produto.nomeProduto}"></h6>
+
+                                                <div hidden>
+                                                    <select th:field="*{compras.quantidadePedido}">
+                                                        <option th:value="${carrinhoCompras.quantidade}" th:text="${carrinhoCompras.quantidade}"></option>
+                                                    </select>
+                                                    <select th:field="*{compras.produtoPedido}">
+                                                        <option th:value="${item.produto.nomeProduto}" th:text="${item.produto.nomeProduto}"></option>
+                                                    </select>
+                                                    <select th:field="*{compras.quantidadeProdutoPedido}">
+                                                        <option th:value="${carrinhoCompras.getQuantidade(item)}" th:text="${carrinhoCompras.getQuantidade(item)}"></option>
+                                                    </select>
+                                                </div>       
+
+
+                                                <span class="bi bi-box-seam text" th:text="${' ' + carrinhoCompras.getQuantidade(item)}"></span>
+                                                <span style="color: green; font-weight: bold;" th:text="${#numbers.formatCurrency(item.produto.valorProduto)}"></span>
+                                            </li>
+                                        </div>
+                                        <div>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <h6 class="my-0">Sub-Total:</h6>
+                                                <span style="color: green; font-weight: bold;" th:text="${#numbers.formatCurrency(carrinhoCompras.total)}"></span>
+                                            </li>
+                                        </div>
+                                        <div>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <h6 class="my-0">Frete:</h6>
+                                                <span style="color: green; font-weight: bold;" th:text="${#numbers.formatCurrency(frete2)}"></span>
+                                            </li>
+                                        </div>
+                                        <div>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <h6 class="my-0">Total + Frete:</h6>
+                                                <span style="color: green; font-weight: bold;" th:text="${#numbers.formatCurrency(carrinhoCompras.total + frete2)}"></span>
+                                                <select th:field="*{compras.valorTotal}" hidden>
+                                                    <option th:value="${#numbers.formatCurrency(carrinhoCompras.total + frete2)}" th:text="${#numbers.formatCurrency(carrinhoCompras.total + frete2)}" selected></option>
+                                                </select>
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a role="button" th:href="@{/carrinho/exibir}" class="btn btn-outline-secondary">Carrinho  <i class="bi bi-cart3"></i></a>
+                                        <button type="submit" class="btn btn-outline-success">Finalizar compra <i class="bi bi-check-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <button type="button" data-toggle="modal" data-target="#modalExemplo" class="btn btn-outline-success btn-lg btn-block"> Confirmar compra</button>
+                        <a class="btn btn-outline-secondary btn-lg btn-block" th:href="@{/carrinho/exibir}" role="button">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <footer class="text-muted">
+            <div class="container">
+                <p class="mt-5 mb-3 text-muted">&copy; MPE Tech | 2021</p>
+            </div>
+        </footer>
+        <br><br>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script th:src="@{/scripts/escondeCamposCheckout.js}" type="text/javascript"></script>
+    <script th:src="@{/scripts/copiaFreteSelecionado.js}"></script>
+    <script th:src="@{/scripts/validaNumeros.js}"></script>
+</html>
