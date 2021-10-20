@@ -1,29 +1,16 @@
-# README #
+# MPE-Tech
+Faculty - Integrator Project discipline IV
 
-This README would normally document whatever steps are necessary to get your application up and running.
+E-commerce developed in:
 
-### What is this repository for? ###
+- Java language;
+- Spring Boot (MVC, Data, Security);
+- JPA + Hibernate;
+- Apache Tomcat;
+- Dependency Manager (Maven);
+- HTML5 + CSS3 + JS;
+- Bootstrap;
+- MySQL database;
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
